@@ -19,11 +19,15 @@
 
     $(document).ready(function () {
         database.collection('cms_pages').where('slug','==','{!! $slug !!}').get().then(async function (snapshots) {
-            var title = document.getElementById('cms_title');
-            var description = document.getElementById('cms_description');
-            var data = snapshots.docs[0].data();
-            title.innerHTML=data.name;
-            description.innerHTML=data.description;
+            if (snapshots.docs.length > 0) {
+                var title = document.getElementById('cms_title');
+                var description = document.getElementById('cms_description');
+                var data = snapshots.docs[0].data();
+                if (data) {
+                    title.innerHTML = data.name || '';
+                    description.innerHTML = data.description || '';
+                }
+            }
         });
 
     });
